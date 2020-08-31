@@ -1,0 +1,427 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png"><link rel="icon" type="image/png" href="/img/favicon.png"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="theme-color" content="#2f4154"><meta name="description" content=""><meta name="author" content="rooftopj"><meta name="keywords" content=""><title>Spring Cloud - rooftopj</title><link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css"><link rel="stylesheet" href="/lib/hint/hint.min.css"><link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/srcery.min.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/card.css"><link rel="stylesheet" href="/css/icon.css"><script src="/js/utils.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div id="dark" onclick="switchDarkMode()"></div><script>var isNight=23<=(new Date).getHours()||(new Date).getHours()<6;(matchMedia("(prefers-color-scheme: dark)").matches||isNight||"1"===localStorage.getItem("dark"))&&(isNight&&"1"===localStorage.getItem("noDark")||document.body.classList.add("dark")),document.getElementById("dark").innerHTML=document.querySelector("body").classList.contains("dark")?"🌙":"🌞"</script><header style="height:70vh"><nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar"><div class="container"><a class="navbar-brand" href="/">&nbsp;<strong>rooftopj</strong>&nbsp;</a> <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><div class="animated-icon"><span></span><span></span><span></span></div></button><div class="collapse navbar-collapse" id="navbarSupportedContent"><ul class="navbar-nav ml-auto text-center"><li class="nav-item"><a class="nav-link" href="/"><i class="iconfont icon-home-fill"></i> 首页</a></li><li class="nav-item"><a class="nav-link" href="/archives/"><i class="iconfont icon-archive-fill"></i> 归档</a></li><li class="nav-item"><a class="nav-link" href="/categories/"><i class="iconfont icon-category-fill"></i> 分类</a></li><li class="nav-item"><a class="nav-link" href="/tags/"><i class="iconfont icon-tags-fill"></i> 标签</a></li><li class="nav-item"><a class="nav-link" href="/about/"><i class="iconfont icon-user-fill"></i> 关于</a></li><li class="nav-item" id="search-btn"><a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i class="iconfont icon-search"></i>&nbsp;&nbsp;</a></li></ul></div></div></nav><div class="view intro-2" id="background" parallax="true" style="background:url(/img/default.png) no-repeat center center;background-size:cover"><div class="full-bg-img"><div class="mask flex-center" style="background-color:rgba(0,0,0,.3)"><div class="container text-center white-text fadeInUp"><span class="h2" id="subtitle"></span><div class="mt-3 post-meta"><i class="iconfont icon-date-fill" aria-hidden="true"></i> <time datetime="2020-08-11 12:52">2020年8月11日 下午</time></div><div class="mt-1"><span class="post-meta mr-2"><i class="iconfont icon-chart"></i> 3.5k 字</span><span class="post-meta mr-2"><i class="iconfont icon-clock-fill"></i> 46 分钟</span><span id="leancloud-post-views-container" class="post-meta" style="display:none"><i class="iconfont icon-eye" aria-hidden="true"></i> 访问<span id="leancloud-post-views"></span> 次</span></div></div></div></div></div></header><main><div class="container-fluid"><div class="row"><div class="d-none d-lg-block col-lg-2"></div><div class="col-lg-8 nopadding-md"><div class="container nopadding-md" id="board-ctn"><div class="py-5" id="board"><div class="post-content mx-auto" id="post"><p class="note note-info">本文最后更新于：2020年8月11日 晚上</p><article class="markdown-body"><h2 id="前言"><a class="markdownIt-Anchor" href="#前言"></a> 前言</h2><p>分布式网络并不可靠，微服务架构存在4个核心问题：</p><ol><li><p>服务很多，客户端该怎么访问?</p></li><li><p>这么多服务，服务之间如何通信？</p></li><li><p>这么多服务，如何治理？</p></li><li><p>服务挂了怎么办?</p></li></ol><p>解决方案：Spring Cloud生态：</p><ol><li>Spring Cloud NetFlix，一站式解决方案，已停止维护。<ul><li>API网关，zuul组件</li><li>Feign，HttpClient ，Http通信方式，同步、阻塞</li><li>服务注册发现：Eureka</li><li>熔断机制：Hystrix</li><li>…</li></ul></li><li>Spring Dubbo Zookeeper，半自动。<ul><li>无API，借助别人的，或者自己实现。</li><li>Dubbo</li><li>Zookeeper</li><li>无熔断，借助别人的</li></ul></li><li>Spring Cloud Alibaba，一站式解决方案，更简单</li></ol><p>新概念：服务网格~ Server Mesh</p><ul><li>istio</li></ul><p>总的体系：</p><ol><li>API网关：解决服务路由问题。</li><li>HTTP\RPC：解决通信问题。</li><li>注册和发现：解决高可用问题。</li><li>熔断机制：解决服务降级问题。</li></ol><p><img src="https://i.loli.net/2020/08/08/UNmhwAD42YMqcSW.png" srcset="/img/loading.gif" alt=""></p><p><img src="https://i.loli.net/2020/08/08/lejrV5cJPp29ikq.png" srcset="/img/loading.gif" alt=""></p><p>以下技术如今大部分都出现了替代品。</p><p><img src="https://i.loli.net/2020/08/08/4J8gFikxe6mpXRt.png" srcset="/img/loading.gif" alt=""></p><p>截止2020.08.08，springcloud官网推荐版本选择。或者点击相关springcloud版本查看推荐的springcloud版本。</p><table><thead><tr><th style="text-align:center">Hoxton</th><th>2.2.x, 2.3.x (Starting with SR5)</th></tr></thead><tbody><tr><td style="text-align:center">Greenwich</td><td>2.1.x</td></tr><tr><td style="text-align:center">Finchley</td><td>2.0.x</td></tr><tr><td style="text-align:center">Edgware</td><td>1.5.x</td></tr><tr><td style="text-align:center">Dalston</td><td>1.5.x</td></tr></tbody></table><a class="btn" href="https://start.spring.io/actuator/info" target="_blank">技术选型</a><p><img src="https://i.loli.net/2020/08/08/RJzYQ5h7K4m8obr.png" srcset="/img/loading.gif" alt=""></p><h2 id="一-父工程建立"><a class="markdownIt-Anchor" href="#一-父工程建立"></a> 一、父工程建立</h2><ol><li>字符编码；</li><li>注解生效激活；</li><li>java编译版本选择；</li><li>File type过滤。</li></ol><h2 id="二-服务注册中心"><a class="markdownIt-Anchor" href="#二-服务注册中心"></a> 二、服务注册中心</h2><h3 id="1-eureka"><a class="markdownIt-Anchor" href="#1-eureka"></a> 1. Eureka</h3><p>Server端集群：互相注册，相互守望。</p><p>自我保护机制：CAP中的AP。</p><h3 id="2zookeeper"><a class="markdownIt-Anchor" href="#2zookeeper"></a> 2.Zookeeper</h3><h3 id="3consul"><a class="markdownIt-Anchor" href="#3consul"></a> 3.Consul</h3><p><code>consul agent -dev</code></p><h3 id="4异同点"><a class="markdownIt-Anchor" href="#4异同点"></a> 4.异同点</h3><table><thead><tr><th style="text-align:center">组件名</th><th style="text-align:center">语言</th><th style="text-align:center">CAP</th><th style="text-align:center">服务健康检查</th><th style="text-align:center">对外暴露接口</th><th style="text-align:center">Spring Cloud集成</th></tr></thead><tbody><tr><td style="text-align:center">Eureka</td><td style="text-align:center">Java</td><td style="text-align:center">AP</td><td style="text-align:center">可配支持</td><td style="text-align:center">HTTP</td><td style="text-align:center">已集成</td></tr><tr><td style="text-align:center">Zookeeper</td><td style="text-align:center">Java</td><td style="text-align:center">CP</td><td style="text-align:center">支持</td><td style="text-align:center">HTTP/DNS</td><td style="text-align:center">已集成</td></tr><tr><td style="text-align:center">Consul</td><td style="text-align:center">Go</td><td style="text-align:center">CP</td><td style="text-align:center">支持</td><td style="text-align:center">客户端</td><td style="text-align:center">已集成</td></tr></tbody></table><h2 id="三-服务调用"><a class="markdownIt-Anchor" href="#三-服务调用"></a> 三、服务调用</h2><h3 id="1ribbon"><a class="markdownIt-Anchor" href="#1ribbon"></a> 1.Ribbon</h3><h4 id="ribbon核心组件irule"><a class="markdownIt-Anchor" href="#ribbon核心组件irule"></a> Ribbon核心组件IRule</h4><p>抽象类AbstractLoadBalancerRule。</p><p>在主启动类@ComponentScan范围外建立配置类，并在主启动类上添加@RibbonClient(name=“服务名”, configuration= xxxx.class)</p><p><img src="https://i.loli.net/2020/08/09/KPED3r1FiO5fxYU.png" srcset="/img/loading.gif" alt=""></p><div class="hljs"><pre><code class="hljs JAVA">RestTemplate restTemplate;
+restTemplate.getForObject ----&gt;  返回json
+restTemplate.getForEntity ----&gt;  返回ResponsrEntity。包括.getStatusCode().is2xxSuccessful()  .getBody()</code></pre></div><h4 id="轮询负载均衡算法"><a class="markdownIt-Anchor" href="#轮询负载均衡算法"></a> 轮询负载均衡算法</h4><p>自加一再求余数，获得ServicesInstances的索引。</p><h5 id="cas"><a class="markdownIt-Anchor" href="#cas"></a> CAS</h5><p>CAS（CompareAndSet）：比较并交换。</p><ol><li><p>自旋锁</p></li><li><p>Unsafe</p></li></ol><h4 id="手写负载均衡算法"><a class="markdownIt-Anchor" href="#手写负载均衡算法"></a> 手写负载均衡算法</h4><p>以下代码在有两个Eureka客户端时，访问0号客户端两次，访问1号客户端一次，需要去掉@LoadBalanced注解。</p><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.rooftopj.mylb.impl;
+
+<span class="hljs-keyword">import</span> com.rooftopj.mylb.LoadBalance;
+<span class="hljs-keyword">import</span> org.springframework.cloud.client.ServiceInstance;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-keyword">import</span> java.util.List;
+<span class="hljs-keyword">import</span> java.util.concurrent.atomic.AtomicInteger;
+
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoadBalanceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">LoadBalance</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> AtomicInteger atomicInteger = <span class="hljs-keyword">new</span> AtomicInteger(<span class="hljs-number">0</span>);
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getNum</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">int</span> cur;
+        <span class="hljs-keyword">int</span> next;
+        
+        <span class="hljs-comment">// 自旋锁</span>
+        <span class="hljs-keyword">do</span>&#123;
+            cur = <span class="hljs-keyword">this</span>.atomicInteger.get();
+            next = cur &gt;= <span class="hljs-number">2147483647</span> ? <span class="hljs-number">0</span> : cur + <span class="hljs-number">1</span>;
+        &#125;<span class="hljs-keyword">while</span>(!atomicInteger.compareAndSet(cur,next));
+        
+        System.out.println(<span class="hljs-keyword">this</span>.atomicInteger.get());
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.atomicInteger.get();
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ServiceInstance <span class="hljs-title">get</span><span class="hljs-params">(List&lt;ServiceInstance&gt; lists)</span> </span>&#123;
+        <span class="hljs-keyword">int</span> i = getNum() % (lists.size() + <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">int</span> index;
+        <span class="hljs-keyword">if</span>(i == <span class="hljs-number">0</span> || i == <span class="hljs-number">1</span>)&#123;
+            index = <span class="hljs-number">0</span>;
+        &#125;<span class="hljs-keyword">else</span> &#123;
+            index = <span class="hljs-number">1</span>;
+        &#125;
+        System.out.println(<span class="hljs-string">"index:"</span> + index);
+        <span class="hljs-keyword">return</span> lists.get(index);
+    &#125;
+&#125;</code></pre></div><h3 id="2openfeign"><a class="markdownIt-Anchor" href="#2openfeign"></a> 2.OpenFeign</h3><p>在之前的操作中，消费者端我们采用的是Ribbon+RestTemplate的方式，而使用OpenFeign也是另一种可行方式。使用接口+注解@FeignClient方式，入口类也需加上注解@EnableFeignClients。</p><p>OpenFeign默认超时限制为1s，可以修改</p><div class="hljs"><pre><code class="hljs yml"><span class="hljs-attr">ribbon:</span>
+	<span class="hljs-attr">ReadTimeout:</span> <span class="hljs-number">5000</span>  <span class="hljs-comment">#建立连接的时间</span>
+	<span class="hljs-attr">ConnectTimeout:</span> <span class="hljs-number">5000</span>	<span class="hljs-comment">#从服务器读取可用资源所用时间</span></code></pre></div><p>OpenFeign日志</p><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FeignConfig</span></span>
+<span class="hljs-class"></span>&#123;
+    <span class="hljs-meta">@Bean</span>
+    Logger.<span class="hljs-function">Level <span class="hljs-title">feignLoggerLevel</span><span class="hljs-params">()</span></span>
+<span class="hljs-function">    </span>&#123;
+        <span class="hljs-keyword">return</span> Logger.Level.FULL;
+    &#125;
+&#125;</code></pre></div><div class="hljs"><pre><code class="hljs yml"><span class="hljs-attr">logging:</span>
+  <span class="hljs-attr">level:</span>
+    <span class="hljs-comment"># feign日志以什么级别监控哪个接口</span>
+    <span class="hljs-string">全限定类名:</span> <span class="hljs-string">debug</span></code></pre></div><h2 id="四-服务降级"><a class="markdownIt-Anchor" href="#四-服务降级"></a> 四、服务降级</h2><h3 id="1hystrix"><a class="markdownIt-Anchor" href="#1hystrix"></a> 1.Hystrix</h3><p>fallback：服务降级。系统不可用时，需要一个预期的，可处理的备选响应，而不是长时间的等待或者抛出调用方无法处理的异常。如：服务器忙，请稍后再试。</p><p>哪些情况下会发生降级：</p><ol><li>程序运行异常；</li><li>超时；</li><li>服务熔断触发降级；</li><li>线程池、信号量打满。</li></ol><p>break：服务熔断。达到最大访问后，直接拒绝访问，然后调用服务降级返回友好提示。当微服务调用响应正常后，恢复调用链路。</p><p>在滚动时间窗内，当错误率高于设定值且请求次数高于设定值，熔断。直接降级。之后过一段时间，休眠时间窗，默认5秒，进入半开半闭状态，若能够正常处理请求，则恢复，否则，熔断，再等待5秒后循环以上判断过程。</p><p>flowlimit：服务限流。秒杀等高并发操作，过于拥挤后需要排队。</p><h2 id="五-api网关"><a class="markdownIt-Anchor" href="#五-api网关"></a> 五、API网关</h2><h3 id="1gateway"><a class="markdownIt-Anchor" href="#1gateway"></a> 1.gateway</h3><div class="hljs"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">ch07-gateway</span>
+  <span class="hljs-attr">cloud:</span>
+    <span class="hljs-attr">gateway:</span>
+      <span class="hljs-attr">discovery:</span>
+        <span class="hljs-attr">locator:</span>
+          <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>
+      <span class="hljs-attr">routes:</span>
+        <span class="hljs-bullet">-</span> <span class="hljs-attr">id:</span> <span class="hljs-string">the_first</span>
+          <span class="hljs-attr">uri:</span> <span class="hljs-string">lb://ch01-provider</span>
+          <span class="hljs-attr">predicates:</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Path=/provider/get/**</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">After=2020-08-10T11:51:37.485+08:00[Asia/Shanghai]</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Before=2020-08-10T11:51:37.485+08:00[Asia/Shanghai]</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Between=2020-08-10T11:51:37.485+08:00[Asia/Shanghai],</span> <span class="hljs-number">2020</span><span class="hljs-number">-08</span><span class="hljs-string">-10T12:51:37.485+08:00[Asia/Shanghai]</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Cookie=username,zzyy</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Header=X-Request-Id,\d+</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Host=**.somehost.org,**.anotherhost.org</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Method=GET,POST</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Query=green</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">RemoteAddr=192.168.1.1/24</span> <span class="hljs-comment">#IPV4 IPV6</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">Weight=group1,</span> <span class="hljs-number">2</span> <span class="hljs-comment">#同一个组可以分权重</span>
+          <span class="hljs-attr">filters:</span>
+            <span class="hljs-bullet">-</span> <span class="hljs-string">AddRequestParameter=red,</span> <span class="hljs-string">blue</span></code></pre></div><h2 id="六-配置中心"><a class="markdownIt-Anchor" href="#六-配置中心"></a> 六、配置中心</h2><h3 id="1spring-cloud-config"><a class="markdownIt-Anchor" href="#1spring-cloud-config"></a> 1.Spring Cloud Config</h3><p><code>curl -X POST &quot;http://localhost:3355/actuator/refresh&quot;</code></p><h3 id="2spring-cloud-bus消息总线"><a class="markdownIt-Anchor" href="#2spring-cloud-bus消息总线"></a> 2.Spring Cloud Bus消息总线</h3><p>自动化动态刷新、差异化动态刷新。</p><ol><li>利用消息总线触发一个客户端/bus/refresh，从而刷新所有客户端配置；</li><li>利用消息总线触发一个服务端/bus/refresh，从而刷新所有客户端配置。（更合理）</li></ol><p>刷新所有客户端，先触发服务端：</p><p><code>curl -X POST &quot;http://localhost:3344/actuator/bus-refresh&quot;</code></p><p>刷新指定客户端：</p><p><code>curl -X POST &quot;http://localhost:3344/actuator/bus-refresh/config-client:3355&quot;</code></p><h2 id="七-spring-cloud-stream"><a class="markdownIt-Anchor" href="#七-spring-cloud-stream"></a> 七、Spring Cloud Stream</h2><p>屏蔽底层消息中间件差异。</p><p><img src="https://i.loli.net/2020/08/10/PVLOc69RK27qTMD.png" srcset="/img/loading.gif" alt=""></p><ol><li>避免重复消费</li></ol><p>不同的组会重复消费，相同的组是竞争消费。</p><ol start="2"><li>分组</li><li>持久化，加group</li></ol><h2 id="八-spring-cloud-sleuth"><a class="markdownIt-Anchor" href="#八-spring-cloud-sleuth"></a> 八、Spring Cloud Sleuth</h2><p>微服务跟踪(sleuth)其实是一个工具,它在整个分布式系统中能跟踪一个用户请求的过程(包括数据采集，数据传输，数据存储，数据分析，数据可视化)，捕获这些跟踪数据，就能构建微服务的整个调用链的视图，这是调试和监控微服务的关键工具。Spring Cloud Sleuth提供了分布式追踪(distributed tracing)的一个解决方案。其基本思路是在服务调用的请求和响应中加入ID，标明上下游请求的关系。利用这些信息，可以方便地分析服务调用链路和服务间的依赖关系。</p><p><img src="https://i.loli.net/2020/08/10/eo8Ams9ujDqyVcB.png" srcset="/img/loading.gif" alt=""></p><h2 id="九-spring-cloud-alibaba"><a class="markdownIt-Anchor" href="#九-spring-cloud-alibaba"></a> 九、Spring Cloud Alibaba</h2><h3 id="1nacos"><a class="markdownIt-Anchor" href="#1nacos"></a> 1.Nacos</h3><h4 id="1注册中心"><a class="markdownIt-Anchor" href="#1注册中心"></a> 1.注册中心</h4><p>Nacos可在AP模式和CP模式间切换。</p><h4 id="2配置中心"><a class="markdownIt-Anchor" href="#2配置中心"></a> 2.配置中心</h4><p><code>${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}</code></p><p>Namespace + Group + DataID。</p><p>Namespace区分部署环境，如开发、测试、生产。</p><p>Group可以将不同的微服务划分到同一个分组中。</p><h4 id="3集群"><a class="markdownIt-Anchor" href="#3集群"></a> 3.集群</h4><p>为保证数据一致性，需要使用MySql数据库替代内置Derby数据库。</p><p><img src="https://i.loli.net/2020/08/11/R7w9DyxKa8NImSh.png" srcset="/img/loading.gif" alt=""></p><h3 id="2sentinel"><a class="markdownIt-Anchor" href="#2sentinel"></a> 2.Sentinel</h3><p>临时存储。可配置持久化。</p><h4 id="1流控规则"><a class="markdownIt-Anchor" href="#1流控规则"></a> 1.流控规则</h4><ul><li>阈值类型</li><li><ul><li>QPS：每秒请求数量。</li></ul></li><li><ul><li>线程数：正在处理的请求个数。</li></ul></li></ul><hr><ul><li><p>流控模式</p></li><li><ul><li>直接：默认。</li></ul></li><li><ul><li>关联：与A关联的资源B达到阈值后，就限流A自己。（如支付限流后也限流下订单的接口）</li></ul></li><li><ul><li>链路：链路前面的资源被限流后，后面的资源也会被限流。</li></ul></li></ul><hr><ul><li><p>流控效果</p></li><li><ul><li>直接，快速失败</li></ul></li><li><ul><li>Warm Up预热，冷加载因子coldFactor，默认为3。初始值为阈值 / 冷加载因子，经过预热时间后升至阈值。</li></ul></li><li><ul><li>排队等待，平均有序处理超过阈值的请求。</li></ul></li></ul><h4 id="2降级规则"><a class="markdownIt-Anchor" href="#2降级规则"></a> 2.降级规则</h4><p>降级后就熔断，没有半开半闭状态。</p><ul><li>RT(平均响应时间，秒级)</li></ul><p>平均响应时间均超出阈值且QPS&gt;=5，触发降级，熔断。在接下来的时间窗口内，对这个方法的调用都会抛出<code>DegradeException</code>异常，时间窗口结束后，关闭降级。</p><ul><li>异常比例（秒级）</li></ul><p>异常比例（秒级统计）超过阈值且QPS&gt;=5，触发降级。在接下来的时间窗口内，对这个方法的调用都会自动返回。时间窗口结束后，关闭降级。</p><ul><li>异常数（分钟级）</li></ul><p>异常数（分钟统计）超过阈值，触发降级，熔断。时间窗口大于60s，时间窗口结束后，关闭降级。</p><h4 id="3热点规则"><a class="markdownIt-Anchor" href="#3热点规则"></a> 3.热点规则</h4><p>普通：通过参数索引根据是否存在某个请求参数做流控。</p><p>高级：对于例外情况，根据某个请求参数的值是否为设定值做例外设定流控。只支持基本数据类型和String。</p><p><code>@SentinelResource(value=&quot;唯一即可，配置中填该名字&quot;, blockHandler=&quot;fallback方法名&quot;)</code>处理的是java控制台配置的违规情况。而对于RuntimeException不管。</p><h4 id="4系统规则"><a class="markdownIt-Anchor" href="#4系统规则"></a> 4.系统规则</h4><p>对整个网站入口进行流控。</p><ul><li><strong>Load 自适应</strong>（仅对 Linux/Unix-like 机器生效）：系统的 load1 作为启发指标，进行自适应系统保护。当系统 load1 超过设定的启发值，且系统当前的并发线程数超过估算的系统容量时才会触发系统保护（BBR 阶段）。系统容量由系统的 <code>maxQps * minRt</code> 估算得出。设定参考值一般是 <code>CPU cores * 2.5</code>。</li><li><strong>CPU usage</strong>（1.5.0+ 版本）：当系统 CPU 使用率超过阈值即触发系统保护（取值范围 0.0-1.0），比较灵敏。</li><li><strong>平均 RT</strong>：当单台机器上所有入口流量的平均 RT 达到阈值即触发系统保护，单位是毫秒。</li><li><strong>并发线程数</strong>：当单台机器上所有入口流量的并发线程数达到阈值即触发系统保护。</li><li><strong>入口 QPS</strong>：当单台机器上所有入口流量的 QPS 达到阈值即触发系统保护。</li></ul><h4 id="5sentinelresource"><a class="markdownIt-Anchor" href="#5sentinelresource"></a> 5.@SentinelResource</h4><p>Sentinel主要有三个核心API：1.SphU定义资源；2.Tracer定义统计；3.ContextUtil定义上下文。</p><p>解耦，自定义fallback类，不支持private方法，写静态方法。<code>@SentinelResource(value=&quot;唯一即可，配置中填该名字&quot;, blockHandlerClass=自定义fallback类.class,blockHandler=&quot;fallback方法名&quot;)</code></p><hr><p>程序自身运行异常。<code>@SentinelResource(value=&quot;唯一即可，配置中填该名字&quot;, fallback=&quot;xxx&quot;)</code></p><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// 一个要注意的，这里我用Exception作为形参类型没有捕捉到该fallback方法</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">fallback</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span> Integer id, Throwable e)</span></code></pre></div><hr><p>总的来说，blockHandler只管理配置设定的规则，fallback只负责程序自身运行异常。若抛出blockException异常，优先由blockHandler处理。</p><hr><p>exceptionsToIgnore忽略特定异常：<code>@SentinelResource(value=&quot;唯一即可，配置中填该名字&quot;, fallback=&quot;xxx&quot;, exceptionsToIgnore={IllegalArgumentException.class})</code>。</p><h4 id="6规则持久化"><a class="markdownIt-Anchor" href="#6规则持久化"></a> 6.规则持久化</h4><p>可以持久化进Nacos中保存规则。</p><div class="hljs"><pre><code class="hljs json">[
+    &#123;
+        <span class="hljs-attr">"resource"</span>: <span class="hljs-string">"getRibbon"</span>,
+        <span class="hljs-attr">"limitApp"</span>: <span class="hljs-string">"default"</span>,
+        <span class="hljs-attr">"grade"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"count"</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-attr">"strategy"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"controlBehavior"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"clusterMode"</span>: <span class="hljs-literal">false</span>
+    &#125;
+]
+
+resources:资源名称
+limitApp:来源应用
+grade:阈值类型，0表示线程数，1表示QPS
+count:单机阈值
+strategy:流控模式，0表示直接，1表示关联，2表示链路
+controlBehavior:流控效果，0表示快速失败，1表示Warm Up，2表示排队等待
+clusterMode:是否集群</code></pre></div><h3 id="3seata"><a class="markdownIt-Anchor" href="#3seata"></a> 3.Seata</h3><p>支持AT、TCC、SAGA、XA模式。</p><h4 id="1分布式事务"><a class="markdownIt-Anchor" href="#1分布式事务"></a> 1.分布式事务</h4><p>多服务，多表，保证全局数据一致性。</p><p>分布式事务处理的一ID+三组件模型：</p><ol><li>全局唯一的事务ID；</li><li>TC-事务协调器</li><li>TM-事务管理器</li><li>RM-资源管理器</li></ol><p><img src="https://i.loli.net/2020/08/11/dWMsKePbkFp4oDz.png" srcset="/img/loading.gif" alt=""></p><p>TM开启分布式事务（TM向TC注册全局事务记录）；</p><p>按业务场景，编排数据库、服务等事务内资源（RM向TC汇报资源状态）；</p><p>TM结束分布式事务，事务一阶段结束（TM通知TC提交/回滚分布式事务）；</p><p>TC汇总事务信息，决定分布式事务是提交还是回滚；</p><p>TC通知所有RM提交/回滚资源，事务二阶段结束。</p><hr><p><strong>一阶段加载</strong></p><p><img src="https://i.loli.net/2020/08/11/lX5rPMbu7RwLcjO.png" srcset="/img/loading.gif" alt=""></p><hr><p><strong>二阶段提交</strong></p><p><img src="https://i.loli.net/2020/08/11/gJzGbncati6uySX.png" srcset="/img/loading.gif" alt=""></p><hr><p><strong>二阶段回滚</strong></p><p><img src="https://i.loli.net/2020/08/11/gpLVEPDqRhkuUBF.png" srcset="/img/loading.gif" alt=""></p><h4 id="2实战"><a class="markdownIt-Anchor" href="#2实战"></a> 2.实战</h4><p><code>Seata1.3.0</code>最新版（截止2020.08.11），弄了好久才跑出来。Seata + Nacos + Sentinel + OpenFeign：下订单 -&gt; 减库存 -&gt; 减余额 -&gt; 记录订单，发生异常时返回友好界面且回滚保证数据一致性。</p><ul><li>新建seata数据库，建立如下三个表：</li></ul><div class="hljs"><pre><code class="hljs sql"><span class="hljs-comment">-- -------------------------------- The script used when storeMode is 'db' --------------------------------</span>
+<span class="hljs-comment">-- the table to store GlobalSession data</span>
+<span class="hljs-comment">#分支事务表</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`global_table`</span>
+(
+    <span class="hljs-string">`xid`</span>                       <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-string">`transaction_id`</span>            <span class="hljs-built_in">BIGINT</span>,
+    <span class="hljs-string">`status`</span>                    <span class="hljs-built_in">TINYINT</span>      <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-string">`application_id`</span>            <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">32</span>),
+    <span class="hljs-string">`transaction_service_group`</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">32</span>),
+    <span class="hljs-string">`transaction_name`</span>          <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">128</span>),
+    <span class="hljs-string">`timeout`</span>                   <span class="hljs-built_in">INT</span>,
+    <span class="hljs-string">`begin_time`</span>                <span class="hljs-built_in">BIGINT</span>,
+    <span class="hljs-string">`application_data`</span>          <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">2000</span>),
+    <span class="hljs-string">`gmt_create`</span>                DATETIME,
+    <span class="hljs-string">`gmt_modified`</span>              DATETIME,
+    PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`xid`</span>),
+    <span class="hljs-keyword">KEY</span> <span class="hljs-string">`idx_gmt_modified_status`</span> (<span class="hljs-string">`gmt_modified`</span>, <span class="hljs-string">`status`</span>),
+    <span class="hljs-keyword">KEY</span> <span class="hljs-string">`idx_transaction_id`</span> (<span class="hljs-string">`transaction_id`</span>)
+) <span class="hljs-keyword">ENGINE</span> = <span class="hljs-keyword">InnoDB</span>
+  <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span> = utf8;
+
+<span class="hljs-comment">-- the table to store BranchSession data</span>
+<span class="hljs-comment">#全局事务表</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`branch_table`</span>
+(
+    <span class="hljs-string">`branch_id`</span>         <span class="hljs-built_in">BIGINT</span>       <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-string">`xid`</span>               <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-string">`transaction_id`</span>    <span class="hljs-built_in">BIGINT</span>,
+    <span class="hljs-string">`resource_group_id`</span> <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">32</span>),
+    <span class="hljs-string">`resource_id`</span>       <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">256</span>),
+    <span class="hljs-string">`branch_type`</span>       <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">8</span>),
+    <span class="hljs-string">`status`</span>            <span class="hljs-built_in">TINYINT</span>,
+    <span class="hljs-string">`client_id`</span>         <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">64</span>),
+    <span class="hljs-string">`application_data`</span>  <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">2000</span>),
+    <span class="hljs-string">`gmt_create`</span>        DATETIME(<span class="hljs-number">6</span>),
+    <span class="hljs-string">`gmt_modified`</span>      DATETIME(<span class="hljs-number">6</span>),
+    PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`branch_id`</span>),
+    <span class="hljs-keyword">KEY</span> <span class="hljs-string">`idx_xid`</span> (<span class="hljs-string">`xid`</span>)
+) <span class="hljs-keyword">ENGINE</span> = <span class="hljs-keyword">InnoDB</span>
+  <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span> = utf8;
+
+<span class="hljs-comment">-- the table to store lock data</span>
+<span class="hljs-comment">#全局锁</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`lock_table`</span>
+(
+    <span class="hljs-string">`row_key`</span>        <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-string">`xid`</span>            <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">96</span>),
+    <span class="hljs-string">`transaction_id`</span> <span class="hljs-built_in">BIGINT</span>,
+    <span class="hljs-string">`branch_id`</span>      <span class="hljs-built_in">BIGINT</span>       <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    <span class="hljs-string">`resource_id`</span>    <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">256</span>),
+    <span class="hljs-string">`table_name`</span>     <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">32</span>),
+    <span class="hljs-string">`pk`</span>             <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">36</span>),
+    <span class="hljs-string">`gmt_create`</span>     DATETIME,
+    <span class="hljs-string">`gmt_modified`</span>   DATETIME,
+    PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`row_key`</span>),
+    <span class="hljs-keyword">KEY</span> <span class="hljs-string">`idx_branch_id`</span> (<span class="hljs-string">`branch_id`</span>)
+) <span class="hljs-keyword">ENGINE</span> = <span class="hljs-keyword">InnoDB</span>
+  <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span> = utf8;</code></pre></div><ul><li>在每个表中都需要建下表：</li></ul><div class="hljs"><pre><code class="hljs sql"><span class="hljs-comment">-- 注意此处1.3.0+ 增加唯一索引 ux_undo_log</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`undo_log`</span> (
+  <span class="hljs-string">`id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`branch_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`xid`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`context`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">128</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`rollback_info`</span> longblob <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`log_status`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`log_created`</span> datetime <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`log_modified`</span> datetime <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`ext`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`id`</span>),
+  <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">KEY</span> <span class="hljs-string">`ux_undo_log`</span> (<span class="hljs-string">`xid`</span>,<span class="hljs-string">`branch_id`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8;</code></pre></div><p>配置文件：</p><div class="hljs"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8881</span>
+
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">seata-order-service</span>
+  <span class="hljs-attr">cloud:</span>
+    <span class="hljs-attr">sentinel:</span>
+      <span class="hljs-attr">transport:</span>
+        <span class="hljs-attr">dashboard:</span> <span class="hljs-string">localhost:8080</span>
+        <span class="hljs-attr">port:</span> <span class="hljs-number">8719</span>
+    <span class="hljs-attr">alibaba:</span>
+      <span class="hljs-attr">seata:</span>
+        <span class="hljs-comment">#自定义事务组名称需要与seata-server中的对应</span>
+        <span class="hljs-attr">tx-service-group:</span> <span class="hljs-string">my_test_tx_group</span>
+    <span class="hljs-attr">nacos:</span>
+      <span class="hljs-attr">discovery:</span>
+        <span class="hljs-attr">server-addr:</span> <span class="hljs-string">localhost:8848</span>
+  <span class="hljs-attr">datasource:</span>
+    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.cj.jdbc.Driver</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://localhost:3306/seata_order?serverTimezone=Asia/Shanghai</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-string">xxxxxxx</span>
+
+
+<span class="hljs-attr">mybatis:</span>
+  <span class="hljs-attr">mapperLocations:</span> <span class="hljs-string">classpath:mapper/*.xml</span></code></pre></div><ul><li>数据源，需要在入口类中去掉自带数据源：</li></ul><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.rooftopj.config;
+
+<span class="hljs-keyword">import</span> com.alibaba.druid.pool.DruidDataSource;
+<span class="hljs-keyword">import</span> io.seata.rm.datasource.DataSourceProxy;
+<span class="hljs-keyword">import</span> org.apache.ibatis.session.SqlSessionFactory;
+<span class="hljs-keyword">import</span> org.mybatis.spring.SqlSessionFactoryBean;
+<span class="hljs-keyword">import</span> org.mybatis.spring.transaction.SpringManagedTransactionFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+<span class="hljs-keyword">import</span> org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+
+<span class="hljs-keyword">import</span> javax.sql.DataSource;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 使用Seata对数据源进行代理</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDataSource</span> </span>&#123;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;mybatis.mapperLocations&#125;"</span>)
+    <span class="hljs-keyword">private</span> String mapperLocations;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"spring.datasource"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> DataSource <span class="hljs-title">druidDataSource</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DruidDataSource();
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> DataSourceProxy <span class="hljs-title">dataSourceProxy</span><span class="hljs-params">(DataSource dataSource)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> DataSourceProxy(dataSource);
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> SqlSessionFactory <span class="hljs-title">sqlSessionFactoryBean</span><span class="hljs-params">(DataSourceProxy dataSourceProxy)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        SqlSessionFactoryBean sqlSessionFactoryBean = <span class="hljs-keyword">new</span> SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSourceProxy);
+        sqlSessionFactoryBean.setMapperLocations(<span class="hljs-keyword">new</span> PathMatchingResourcePatternResolver().getResources(mapperLocations));
+        sqlSessionFactoryBean.setTransactionFactory(<span class="hljs-keyword">new</span> SpringManagedTransactionFactory());
+        <span class="hljs-keyword">return</span> sqlSessionFactoryBean.getObject();
+    &#125;
+
+&#125;</code></pre></div><ul><li>后面只需要正常按逻辑业务进行即可，在方法上加@GlobalTransactional。</li></ul></article><hr><div><div class="post-metas mb-3"><div class="post-meta mr-3"><i class="iconfont icon-category"></i> <a class="hover-with-bg" href="/categories/%E6%A1%86%E6%9E%B6/">框架</a></div><div class="post-meta"><i class="iconfont icon-tags"></i> <a class="hover-with-bg" href="/tags/Java/">Java</a> <a class="hover-with-bg" href="/tags/%E5%90%8E%E7%AB%AF/">后端</a></div></div><p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener"><font color="#CAC4C4"><u>CC BY-SA 4.0 协议</u></font></a> ，转载请注明出处！</p><div class="post-prevnext row"><div class="post-prev col-6"></div><div class="post-next col-6"><a href="/posts/rabbitmq-v1/"><span class="hidden-mobile">RabbitMQ</span> <span class="visible-mobile">下一篇</span><i class="iconfont icon-arrowright"></i></a></div></div></div><div class="comments" id="comments"><div id="vcomments"></div><script>function loadValine(){addScript("https://cdn.staticfile.org/valine/1.4.14/Valine.min.js",function(){new Valine({el:"#vcomments",app_id:"WLIvPVVRoeWhnHGUavoLR0F0-9Nh9j0Va",app_key:"19OuG1Cn8ss6vpIXBxYjjff0",placeholder:"说点什么吧~",path:window.location.pathname,avatar:"retro",meta:["nick","mail","link"],pageSize:"10",lang:"zh-CN",highlight:!1,recordIP:!1,serverURLs:"https://wlivpvvr.lc-cn-e1-shared.com"})})}createObserver(loadValine,"vcomments")</script><noscript>Please enable JavaScript to view the <a href="https://valine.js.org" target="_blank" rel="nofollow noopener noopener">comments powered by Valine.</a></noscript></div></div></div></div></div><div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn"><div id="toc"><p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p><div id="tocbot"></div></div></div></div></div></main><a id="scroll-top-button" href="#" role="button"><i class="iconfont icon-arrowup" aria-hidden="true"></i></a><div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable modal-lg" role="document"><div class="modal-content"><div class="modal-header text-center"><h4 class="modal-title w-100 font-weight-bold">搜索</h4><button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body mx-3"><div class="md-form mb-5"><input type="text" id="local-search-input" class="form-control validate"> <label data-error="x" data-success="v" for="local-search-input">关键词</label></div><div class="list-group" id="local-search-result"></div></div></div></div></div><footer class="mt-5"><div class="text-center py-3"><div><i class="iconfont icon-copyright"></i> <a href="javascript:void(0)" target="_self" rel="nofollow noopener"><span>2020</span> <a href="https://www.rooftopj.cn" target="_blank" rel="nofollow noopener"><span>rooftopj</span></a>&nbsp;<i class="iconfont icon-huo"></i> <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>&nbsp;<i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a>&nbsp;<i class="iconfont icon-aliyun"></i> <a href="https://www.aliyun.com/" target="_blank" rel="nofollow noopener"><span>阿里云</span></a>&nbsp;<i class="iconfont icon-qianniu"></i> <a href="https://www.qiniu.com/" target="_blank" rel="nofollow noopener"><span>七牛云</span></a>&nbsp;<i class="iconfont icon-tupian"></i> <a href="https://sm.ms/" target="_blank" rel="nofollow noopener"><span>sm.ms</span></a><br><span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span><script>var now=new Date;function createtime(){var n=new Date("02/03/2020 00:00:00");now.setTime(now.getTime()+250),days=(now-n)/1e3/60/60/24,dnum=Math.floor(days),hours=(now-n)/1e3/60/60-24*dnum,hnum=Math.floor(hours),1==String(hnum).length&&(hnum="0"+hnum),minutes=(now-n)/1e3/60-1440*dnum-60*hnum,mnum=Math.floor(minutes),1==String(mnum).length&&(mnum="0"+mnum),seconds=(now-n)/1e3-86400*dnum-3600*hnum-60*mnum,snum=Math.round(seconds),1==String(snum).length&&(snum="0"+snum),document.getElementById("timeDate").innerHTML="本站安全运行&nbsp"+dnum+"&nbsp天",document.getElementById("times").innerHTML=hnum+"&nbsp小时&nbsp"+mnum+"&nbsp分&nbsp"+snum+"&nbsp秒"}setInterval("createtime()",250)</script></a></div><div class="statistics"><span id="leancloud-site-pv-container" style="display:none">总访问量<span id="leancloud-site-pv"></span> 次</span> <span id="leancloud-site-uv-container" style="display:none">总访客数<span id="leancloud-site-uv"></span> 人</span></div><div class="beian"><a href="http://www.beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">鄂ICP备20011952号-1</a> <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=42018502004644" rel="nofollow noopener" class="beian-police" target="_blank"><span class="beian-police-sep">&nbsp;|&nbsp;</span> <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon"> <span>鄂公网安备 42018502004644号</span></a></div></div></footer><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script><script src="/js/debouncer.js"></script><script src="/js/main.js"></script><script src="/js/lazyload.js"></script><script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js"></script><script src="/js/clipboard-use.js"></script><script defer>(function () {
+    // 查询存储的记录
+    function getRecord(Counter, target) {
+      return new Promise(function (resolve, reject) {
+        Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({target})))
+          .then(resp => resp.json())
+          .then(({results, code, error}) => {
+            if (code === 401) {
+              throw error;
+            }
+            if (results && results.length > 0) {
+              var record = results[0];
+              resolve(record);
+            } else {
+              Counter('post', '/classes/Counter', {target, time: 0})
+                .then(resp => resp.json())
+                .then((record, error) => {
+                  if (error) {
+                    throw error;
+                  }
+                  resolve(record);
+                }).catch(error => {
+                console.error('Failed to create', error);
+                reject(error);
+              });
+            }
+          }).catch((error) => {
+          console.error('LeanCloud Counter Error:', error);
+          reject(error);
+        });
+      })
+    }
+
+    // 发起自增请求
+    function increment(Counter, incrArr) {
+      return new Promise(function (resolve, reject) {
+        Counter('post', '/batch', {
+          "requests": incrArr
+        }).then((res) => {
+          res = res.json();
+          if (res.error) {
+            throw res.error;
+          }
+          resolve(res);
+        }).catch((error) => {
+          console.error('Failed to save visitor count', error);
+          reject(error);
+        });
+      });
+    }
+
+    // 构建自增请求体
+    function buildIncrement(objectId) {
+      return {
+        "method": "PUT",
+        "path": `/1.1/classes/Counter/${ objectId }`,
+        "body": {
+          "time": {
+            '__op': 'Increment',
+            'amount': 1
+          }
+        }
+      }
+    }
+
+    // 校验是否为有效的 UV
+    function validUV() {
+      var key = 'LeanCloud_UV_Flag';
+      var flag = localStorage.getItem(key);
+      if (flag) {
+        // 距离标记小于 24 小时则不计为 UV
+        if (new Date().getTime() - parseInt(flag) <= 86400000) {
+          return false;
+        }
+      }
+      localStorage.setItem(key, new Date().getTime().toString());
+      return true;
+    }
+
+    function addCount(Counter) {
+      var enableIncr = 'true' === 'true' && window.location.hostname !== 'localhost';
+      var getterArr = [];
+      var incrArr = [];
+
+      // 请求 PV 并自增
+      var pvCtn = document.querySelector('#leancloud-site-pv-container');
+      if (pvCtn || enableIncr) {
+        var pvGetter = getRecord(Counter, 'site-pv').then((record) => {
+          incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-pv');
+          if (ele) {
+            ele.innerText = record.time + 1;
+            if (pvCtn) {
+              pvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(pvGetter);
+      }
+
+      // 请求 UV 并自增
+      var uvCtn = document.querySelector('#leancloud-site-uv-container');
+      if (uvCtn || enableIncr) {
+        var uvGetter = getRecord(Counter, 'site-uv').then((record) => {
+          var vuv = validUV();
+          vuv && incrArr.push(buildIncrement(record.objectId))
+          var ele = document.querySelector('#leancloud-site-uv');
+          if (ele) {
+            ele.innerText = record.time + (vuv ? 1 : 0);
+            if (uvCtn) {
+              uvCtn.style.display = 'inline';
+            }
+          }
+        });
+        getterArr.push(uvGetter);
+      }
+
+      // 如果是文章，请求文章的浏览数，并自增
+      if ('true' === 'true') {
+        var viewCtn = document.querySelector('#leancloud-post-views-container');
+        if (viewCtn || enableIncr) {
+          var target = decodeURI('/posts/springcloud-v1/');
+          var viewGetter = getRecord(Counter, target).then((record) => {
+            incrArr.push(buildIncrement(record.objectId))
+            if (viewCtn) {
+              var ele = document.querySelector('#leancloud-post-views');
+              if (ele) {
+                ele.innerText = (record.time || 0) + 1;
+                viewCtn.style.display = 'inline';
+              }
+            }
+          });
+          getterArr.push(viewGetter);
+        }
+      }
+
+      // 如果启动计数自增，批量发起自增请求
+      if (enableIncr) {
+        Promise.all(getterArr).then(() => {
+          incrArr.length > 0 && increment(Counter, incrArr);
+        })
+      }
+    }
+
+    var app_id = 'WLIvPVVRoeWhnHGUavoLR0F0-9Nh9j0Va'
+    var app_key = '19OuG1Cn8ss6vpIXBxYjjff0'
+    var server_url = 'https://wlivpvvr.lc-cn-e1-shared.com'
+
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${ api_server }/1.1${ url }`, {
+          method,
+          headers: {
+            'X-LC-Id': app_id,
+            'X-LC-Key': app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+
+      addCount(Counter);
+    }
+
+    var api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${ app_id.slice(0, 8).toLowerCase() }.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(resp => resp.json())
+        .then(({api_server}) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();</script><script src="/js/custom.js"></script><script src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js"></script><script>$(document).ready(function(){var t=$("#board-ctn").offset().top;tocbot.init({tocSelector:"#tocbot",contentSelector:"article.markdown-body",headingSelector:"h1,h2,h3,h4,h5,h6",linkClass:"tocbot-link",activeLinkClass:"tocbot-active-link",listClass:"tocbot-list",isCollapsedClass:"tocbot-is-collapsed",collapsibleClass:"tocbot-is-collapsible",collapseDepth:0,scrollSmooth:!0,headingsOffset:-t}),0<$(".toc-list-item").length&&$("#toc").css("visibility","visible")})</script><script src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js"></script><script>var typed=new Typed("#subtitle",{strings:["  ","Spring Cloud&nbsp;"],cursorChar:"🍬",typeSpeed:80,loop:!1});typed.stop(),$(document).ready(function(){$(".typed-cursor").addClass("h2"),typed.start()})</script><script src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js"></script><script>anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "❡"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))</script><script src="/js/local-search.js"></script><script>var path="/local-search.xml",inputArea=document.querySelector("#local-search-input");inputArea.onclick=function(){searchFunc(path,"local-search-input","local-search-result"),this.onclick=null}</script><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script>$("#post img:not(.no-zoom img, img[no-zoom]), img[zoom]").each(function(){var t=document.createElement("a");$(t).attr("data-fancybox","images"),$(t).attr("href",$(this).attr("src")),$(this).wrap(t)})</script></body></html>
